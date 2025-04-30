@@ -1,0 +1,28 @@
+.payment-success-section {
+    padding: 100px 0;
+}
+
+.success-card {
+    background: #fff;
+    padding: 50px;
+    border-radius: 10px;
+    box-shadow: 0 5px 30px rgba(0, 0, 0, 0.1);
+}
+
+.success-icon {
+    font-size: 80px;
+    color: #4CAF50;
+    margin-bottom: 30px;
+}
+
+.success-card h2 {
+    color: #111;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.success-card p {
+    color: #6c757d;
+    font-size: 18px;
+    margin-bottom: 30px;
+}
