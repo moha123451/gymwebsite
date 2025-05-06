@@ -10,6 +10,11 @@ use App\Http\Controllers\PricingController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\Admin\SubscriptionController;
+use App\Http\Controllers\Admin\TrainerController;
+use App\Http\Controllers\Admin\MemberController;
+
+
+use App\Http\Controllers\Admin\GymClassController;
 
 // باقي الكنترولرات كما هي...
 
@@ -113,4 +118,43 @@ Route::prefix('admin')->middleware(['auth:member', 'admin'])->group(function () 
         'index' => 'admin.subscriptions.index',
         // ... etc
     ]);
+});
+Route::prefix('admin')->name('admin.')->group(function () {
+    Route::resource('trainers', TrainerController::class);
+});
+
+Route::prefix('admin')->group(function () {
+    Route::get('/trainers', [TrainerController::class, 'index'])->name('admin.trainers.index');
+    Route::get('/trainers/create', [TrainerController::class, 'create'])->name('admin.trainers.create');
+    Route::post('/trainers', [TrainerController::class, 'store'])->name('admin.trainers.store');
+    Route::get('/trainers/{trainer}', [TrainerController::class, 'show'])->name('admin.trainers.show');
+    Route::get('/trainers/{trainer}/edit', [TrainerController::class, 'edit'])->name('admin.trainers.edit');
+    Route::put('/trainers/{trainer}', [TrainerController::class, 'update'])->name('admin.trainers.update');
+    Route::delete('/trainers/{trainer}', [TrainerController::class, 'destroy'])->name('admin.trainers.destroy');
+});
+
+
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
+// Gym Classes Routes (Individual)
+Route::get('/gym-classes', [GymClassController::class, 'index'])->name('gym-classes.index');
+Route::get('/gym-classes/create', [GymClassController::class, 'create'])->name('gym-classes.create');
+Route::post('/gym-classes', [GymClassController::class, 'store'])->name('gym-classes.store');
+Route::get('/gym-classes/{gymClass}', [GymClassController::class, 'show'])->name('gym-classes.show');
+Route::get('/gym-classes/{gymClass}/edit', [GymClassController::class, 'edit'])->name('gym-classes.edit');
+Route::put('/gym-classes/{gymClass}', [GymClassController::class, 'update'])->name('gym-classes.update');
+Route::delete('/gym-classes/{gymClass}', [GymClassController::class, 'destroy'])->name('gym-classes.destroy');
+
+// أو يمكنك استخدام الطريقة المختصرة:
+// Route::resource('gym-classes', GymClassController::class);
+});
+
+Route::prefix('admin')->name('admin.')->group(function () {
+    // جميع رواتب الأعضاء
+    Route::get('/members', [MemberController::class, 'index'])->name('members.index');
+    Route::get('/members/create', [MemberController::class, 'create'])->name('members.create');
+    Route::post('/members', [MemberController::class, 'store'])->name('members.store');
+    Route::get('/members/{member}', [MemberController::class, 'show'])->name('members.show');
+    Route::get('/members/{member}/edit', [MemberController::class, 'edit'])->name('members.edit');
+    Route::put('/members/{member}', [MemberController::class, 'update'])->name('members.update');
+    Route::delete('/members/{member}', [MemberController::class, 'destroy'])->name('members.destroy');
 });

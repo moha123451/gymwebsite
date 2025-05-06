@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -7,56 +8,50 @@ use Illuminate\Http\Request;
 
 class SubscriptionController extends Controller
 {
-    public function construct()
+    public function __construct()
     {
         $this->middleware('auth:member');
         $this->middleware('admin');
     }
 
-    // عرض جميع الاشتراكات
     public function index()
     {
         $subscriptions = Subscription::all();
         return view('admin.subscriptions.index', compact('subscriptions'));
     }
 
-    // عرض نموذج إنشاء اشتراك جديد
     public function create()
     {
         return view('admin.subscriptions.create');
     }
 
-    // حفظ الاشتراك الجديد
     public function store(Request $request)
     {
         $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string',
-            'subscribtion_amount' => 'required|numeric|min:0',
+            'subscribtion_amount' => 'required|numeric|min:0', // نستخدم نفس المسمى في الميجرايشن
             'features' => 'nullable|string',
             'duration' => 'nullable|string',
-            'is_active' => 'boolean'
+            'date_time' => 'required|date' // إضافة حقل التاريخ
         ]);
 
         Subscription::create($request->all());
 
         return redirect()->route('admin.subscriptions.index')
-                        ->with('success', 'Subscription created successfully.');
+                        ->with('success', 'تم إنشاء الاشتراك بنجاح');
     }
 
-    // عرض تفاصيل اشتراك معين
     public function show(Subscription $subscription)
     {
         return view('admin.subscriptions.show', compact('subscription'));
     }
 
-    // عرض نموذج تعديل اشتراك
     public function edit(Subscription $subscription)
     {
         return view('admin.subscriptions.edit', compact('subscription'));
     }
 
-    // تحديث بيانات الاشتراك
     public function update(Request $request, Subscription $subscription)
     {
         $request->validate([
@@ -65,21 +60,29 @@ class SubscriptionController extends Controller
             'subscribtion_amount' => 'required|numeric|min:0',
             'features' => 'nullable|string',
             'duration' => 'nullable|string',
-            'is_active' => 'boolean'
+            'date_time' => 'required|date'
+        ]);
+        $subscription->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'subscribtion_amount' => $request->subscribtion_amount,
+            'features' => $request->features,
+            'duration' => $request->duration,
+            'date_time' => $request->date_time,
+            // 'is_active' => $request->is_active ? 1 : 0,  // حفظ حالة الـ is_active
         ]);
 
-        $subscription->update($request->all());
+        // $subscription->update($request->all());
 
         return redirect()->route('admin.subscriptions.index')
-                        ->with('success', 'Subscription updated successfully.');
+                        ->with('success', 'تم تحديث الاشتراك بنجاح');
     }
 
-    // حذف اشتراك
     public function destroy(Subscription $subscription)
     {
         $subscription->delete();
 
         return redirect()->route('admin.subscriptions.index')
-                        ->with('success', 'Subscription deleted successfully.');
+                        ->with('success', 'تم حذف الاشتراك بنجاح');
     }
 }

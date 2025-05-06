@@ -77,3 +77,17 @@
     </div>
 </div>
 
+<!-- مثال في ملف create.blade.php -->
+<div class="form-group">
+    <label>المبلغ (دينار)</label>
+    <input type="number" step="0.01"
+           name="subscribtion_amount" <!-- نفس المسمى -->
+           class="form-control" required>
+</div>
+
+<div class="form-group">
+    <label>التاريخ والوقت</label>
+    <input type="datetime-local"
+           name="date_time"
+           class="form-control" required>
+</div>
