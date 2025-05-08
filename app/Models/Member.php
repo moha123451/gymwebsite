@@ -18,6 +18,16 @@ class Member extends Authenticatable // Extends Authenticatable for authenticati
         'First_Name', 'Last_name', 'email', 'phone_number', 'date_of_birth',
         'Gender', 'Adress', 'Current_weight', 'Height', 'Bmi', 'Goal_Weight', 'membership_type', 'password'
     ];
+    protected $dates = [
+        'created_at',
+        'updated_at',
+        'date_of_birth' // إذا كان موجوداً
+    ];
+
+    protected $casts = [
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime'
+    ];
 
     // Enable timestamps (created_at and updated_at)
     public $timestamps = true;

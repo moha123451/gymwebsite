@@ -32,8 +32,13 @@
                 <div class="col-md-6">
                     <table class="table table-bordered">
                         <tr>
-                            <th>Date of Birth</th>
-                            <td>{{ $member->date_of_birth ? $member->date_of_birth->format('d M Y') : 'N/A' }}</td>
+                            @if($member->created_at)
+                            <div class="text-dark">{{ $member->created_at->format('d M Y') }}</div>
+                            <div class="text-muted small">{{ $member->created_at->diffForHumans() }}</div>
+                        @else
+                            <div class="text-dark">N/A</div>
+                            <div class="text-muted small">Date not available</div>
+                        @endif
                         </tr>
                         <tr>
                             <th>Gender</th>

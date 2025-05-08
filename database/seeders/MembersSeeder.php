@@ -15,6 +15,12 @@ class MembersSeeder extends Seeder
      */
     public function run()
     {
+        if (app()->environment('local')) {
+            DB::table('members')->truncate();
+        }
+
+        $now = now(); // الوقت الحالي سيستخدم لجميع السجلات
+
         DB::table('members')->insert([
             'First_Name' => 'John',
             'Last_name' => 'Doe',
@@ -30,6 +36,8 @@ class MembersSeeder extends Seeder
             'Goal_Weight' => 65.00,
             'membership_type' => 'Premium',
             'role' => 'member',
+            'created_at' => $now, // أضف هذا
+            'updated_at' => $now  // أضف هذا
         ]);
 
         // You can add more members if needed
@@ -48,6 +56,8 @@ class MembersSeeder extends Seeder
             'Goal_Weight' => 55.00,
             'membership_type' => 'Basic',
             'role' => 'member',
+            'created_at' => $now, // أضف هذا
+            'updated_at' => $now  // أضف هذا
         ]);
     }
 }

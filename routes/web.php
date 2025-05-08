@@ -12,6 +12,8 @@ use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\Admin\SubscriptionController;
 use App\Http\Controllers\Admin\TrainerController;
 use App\Http\Controllers\Admin\MemberController;
+use App\Http\Controllers\Admin\DashboardController;
+
 
 
 use App\Http\Controllers\Admin\GymClassController;
@@ -157,4 +159,8 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('/members/{member}/edit', [MemberController::class, 'edit'])->name('members.edit');
     Route::put('/members/{member}', [MemberController::class, 'update'])->name('members.update');
     Route::delete('/members/{member}', [MemberController::class, 'destroy'])->name('members.destroy');
+});
+Route::prefix('admin')->group(function () {
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
+    // ... بقية الروابط الأخرى
 });
