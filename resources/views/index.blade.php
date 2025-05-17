@@ -161,7 +161,7 @@
                             <div class="hi-text">
                                 <span>Shape your body</span>
                                 <h1>Be <strong>strong</strong> traning hard</h1>
-                                <a href="#" class="primary-btn">Get info</a>
+
                             </div>
                         </div>
                     </div>
@@ -174,7 +174,7 @@
                             <div class="hi-text">
                                 <span>Shape your body</span>
                                 <h1>Be <strong>strong</strong> traning hard</h1>
-                                <a href="#" class="primary-btn">Get info</a>
+
                             </div>
                         </div>
                     </div>
@@ -196,6 +196,43 @@
                 </div>
             </div>
             <div class="row">
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-3 col-sm-6">
+                <div class="cs-item">
+                    <span class="flaticon-034-stationary-bike"></span>
+                    <h4>Modern equipment</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut dolore facilisis.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="cs-item">
+                    <span class="flaticon-033-juice"></span>
+                    <h4>Healthy nutrition plan</h4>
+                    <p>Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="cs-item">
+                    <span class="flaticon-002-dumbell"></span>
+                    <h4>Professional training plan</h4>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut dolore facilisis.</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="cs-item">
+                    <span class="flaticon-014-heart-beat"></span>
+                    <h4>Unique to your needs</h4>
+                    <p>Quis ipsum suspendisse ultrices gravida. Risus commodo viverra maecenas accumsan lacus vel facilisis.</p>
+                </div>
+            </div>
+        </div>
 
                 @php
                  use App\Models\ChooseUsItem;
@@ -242,7 +279,7 @@
                             <div class="ci-text">
                                 <span>{{ $class->category }}</span>
                                 <h5>{{ $class->class_name }}</h5>
-                                <a href="#"><i class="fa fa-angle-right"></i></a>
+                                <a href= "{{ route('classes.show', $class->id) }}"><i class="fa fa-angle-right"></i></a>
                             </div>
                         </div>
                     </div>
@@ -252,21 +289,7 @@
     </section>
     <!-- Classes Section End -->
 
-    <!-- Banner Section Begin -->
-    <section class="banner-section set-bg" data-setbg="{{ asset('img/banner-bg.jpg') }}">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12 text-center">
-                    <div class="bs-text">
-                        <h2>registration now to get more deals</h2>
-                        <div class="bt-tips">Where health, beauty and fitness meet.</div>
-                        <a href="#" class="primary-btn  btn-normal">Appointment</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <!-- Banner Section End -->
+
      <!-- Pricing Section Begin -->
 <section class="pricing-section spad">
     <div class="container">
@@ -332,75 +355,48 @@
         </div>
     </div>
     <!-- Gallery Section End -->
-    <!-- Team Section Begin -->
-    <section class="team-section spad">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-12">
-                    <div class="team-title">
-                        <div class="section-title">
-                            <span>Our Team</span>
-                            <h2>TRAIN WITH EXPERTS</h2>
-                        </div>
-                        <a href="#" class="primary-btn btn-normal appoinment-btn">appointment</a>
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="ts-slider owl-carousel">
-                    <div class="col-lg-4">
-                        <div class="ts-item set-bg" data-setbg="{{ asset('img/team/team-1.jpg') }}">
-                            <div class="ts_text">
-                                <h4>Athart Rachel</h4>
-                                <span>Gym Trainer</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="ts-item set-bg" data-setbg="{{ asset('img/team/team-2.jpg') }}">
-                            <div class="ts_text">
-                                <h4>Athart Rachel</h4>
-                                <span>Gym Trainer</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="ts-item set-bg" data-setbg="{{ asset('img/team/team-3.jpg') }}">
-                            <div class="ts_text">
-                                <h4>Athart Rachel</h4>
-                                <span>Gym Trainer</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="ts-item set-bg" data-setbg="{{ asset('img/team/team-4.jpg') }}">
-                            <div class="ts_text">
-                                <h4>Athart Rachel</h4>
-                                <span>Gym Trainer</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="ts-item set-bg" data-setbg="{{ asset('img/team/team-5.jpg') }}">
-                            <div class="ts_text">
-                                <h4>Athart Rachel</h4>
-                                <span>Gym Trainer</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-4">
-                        <div class="ts-item set-bg" data-setbg="{{ asset('img/team/team-6.jpg') }}">
-                            <div class="ts_text">
-                                <h4>Athart Rachel</h4>
-                                <span>Gym Trainer</span>
-                            </div>
-                        </div>
+  <!-- Team Section Begin -->
+<section class="team-section spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="team-title">
+                    <div class="section-title">
+                        <span>Our Team</span>
+                        <h2>TRAIN WITH EXPERTS</h2>
                     </div>
                 </div>
             </div>
         </div>
-    </section>
-    <!-- Team Section End -->
+        <div class="row">
+            <div class="ts-slider owl-carousel">
+                @foreach($trainers as $trainer)
+                    <div class="col-lg-4">
+                        <a href="{{ route('trainer.show', $trainer->id) }}">
+                            <div class="ts-item set-bg"
+                                @if($trainer->image)
+                                           <img src="{{ asset('storage/' . $trainer->image) }}" class="card-img-top" alt="{{ $trainer->name }}">
+
+                                @else
+                                    style="background-image: url('{{ asset('img/placeholder-trainer.jpg') }}')"
+                                @endif
+                            >
+                                <div class="ts_text">
+                                    <h4>{{ $trainer->name }}</h4>
+                                    @if($trainer->specialization)
+                                        <p class="specialization">{{ $trainer->specialization }}</p>
+                                    @endif
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Team Section End -->
+
     <!-- Get In Touch Section Begin -->
     <div class="gettouch-section">
         <div class="container">

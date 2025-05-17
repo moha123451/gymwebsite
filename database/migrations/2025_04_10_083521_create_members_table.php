@@ -35,8 +35,15 @@ return new class extends Migration
     /**
      * Reverse the migrations.
      */
-    public function down(): void
-    {
-        Schema::dropIfExists('members');
-    }
+
+   public function down(): void
+{
+    // إسقاط القيود الخارجية أولاً
+    Schema::table('classes_members', function (Blueprint $table) {
+        $table->dropForeign(['members_id']);
+        $table->dropForeign(['trainer_id']);
+    });
+
+    Schema::dropIfExists('members');
+}
 };

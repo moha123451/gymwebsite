@@ -4,9 +4,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 class GymClass extends Model
-{   protected $table = 'training_classes';
-    protected $fillable = ['class_name', 'bio', 'trainer_id', 'image', 'category'];
-
+{   protected $table = 'gym_classes';
+   protected $fillable = [
+    'class_name',
+    'bio',
+    'trainer_id',
+    'category',
+    'image',
+    // الأعمدة الجديدة
+    'description',
+    'duration',
+    'schedule',
+    'level',
+    'price',
+    'max_capacity',
+    'is_active'
+];
     // علاقة مع المدرب
     public function trainer()
     {

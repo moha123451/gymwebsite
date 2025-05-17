@@ -28,6 +28,10 @@ class Member extends Authenticatable // Extends Authenticatable for authenticati
         'created_at' => 'datetime',
         'updated_at' => 'datetime'
     ];
+    public function isTrainer()
+{
+    return $this->role === 'trainer';
+}
 
     // Enable timestamps (created_at and updated_at)
     public $timestamps = true;

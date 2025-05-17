@@ -13,6 +13,11 @@ class ClassController extends Controller
        dd($training);
     return view('index', compact('trainingClasses'));
 }
+public function show($id)
+{
+    $class = GymClass::findOrFail($id);
+    return view('classes.show', compact('class'));
+}
 
     }
 

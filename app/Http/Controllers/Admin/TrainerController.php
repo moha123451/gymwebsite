@@ -5,13 +5,14 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Trainer;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Storage;
 
 class TrainerController extends Controller
 {
     // عرض جميع المدربين
     public function index()
     {
-        $trainers = Trainer::all();
+        $trainers = Trainer::latest()->get();
         return view('admin.trainers.index', compact('trainers'));
     }
 
@@ -24,17 +25,23 @@ class TrainerController extends Controller
     // حفظ المدرب الجديد في قاعدة البيانات
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:trainers,email',
             'bio' => 'nullable|string',
-            'role' => 'required|string',
+            'specialization' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:20',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        Trainer::create($request->all());
+        if ($request->hasFile('image')) {
+            $validated['image'] = $request->file('image')->store('trainers', 'public');
+        }
+
+        Trainer::create($validated);
 
         return redirect()->route('admin.trainers.index')
-            ->with('success', 'Trainer created successfully.');
+            ->with('success', 'تم إضافة المدرب بنجاح');
     }
 
     // عرض تفاصيل مدرب معين
@@ -52,25 +59,41 @@ class TrainerController extends Controller
     // تحديث بيانات المدرب في قاعدة البيانات
     public function update(Request $request, Trainer $trainer)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:trainers,email,' . $trainer->id,
             'bio' => 'nullable|string',
-            'role' => 'required|string',
+            
+            'specialization' => 'nullable|string|max:255',
+            'phone' => 'nullable|string|max:20',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ]);
 
-        $trainer->update($request->all());
+        if ($request->hasFile('image')) {
+            // حذف الصورة القديمة إذا كانت موجودة
+            if ($trainer->image) {
+                Storage::disk('public')->delete($trainer->image);
+            }
+            $validated['image'] = $request->file('image')->store('trainers', 'public');
+        }
+
+        $trainer->update($validated);
 
         return redirect()->route('admin.trainers.index')
-            ->with('success', 'Trainer updated successfully.');
+            ->with('success', 'تم تحديث بيانات المدرب بنجاح');
     }
 
     // حذف مدرب من قاعدة البيانات
     public function destroy(Trainer $trainer)
     {
+        // حذف الصورة المرتبطة إذا كانت موجودة
+        if ($trainer->image) {
+            Storage::disk('public')->delete($trainer->image);
+        }
+
         $trainer->delete();
 
         return redirect()->route('admin.trainers.index')
-            ->with('success', 'Trainer deleted successfully.');
+            ->with('success', 'تم حذف المدرب بنجاح');
     }
 }

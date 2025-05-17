@@ -72,7 +72,8 @@ class Kernel extends HttpKernel
         'role' => \App\Http\Middleware\RoleMiddleware::class,
         'auth' => \App\Http\Middleware\Authenticate::class,
         'admin' => \App\Http\Middleware\AdminMiddleware::class,
-        
+         'trainer' => \App\Http\Middleware\EnsureIsTrainer::class,
+
 
 
     ];

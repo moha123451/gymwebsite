@@ -10,90 +10,113 @@ use Illuminate\Support\Facades\Storage;
 
 class GymClassController extends Controller
 {
-    // عرض جميع الفصول
+    // Display all classes
     public function index()
     {
-        $gymClasses = GymClass::with('trainer')->get();
+        $gymClasses = GymClass::with('trainer')
+            ->orderBy('created_at', 'desc')
+            ->get();
         return view('admin.gym-classes.index', compact('gymClasses'));
     }
 
-    // عرض نموذج إنشاء فصل جديد
+    // Show create class form
     public function create()
     {
         $trainers = Trainer::all();
-        return view('admin.gym-classes.create', compact('trainers'));
+        $levels = ['beginner' => 'Beginner', 'intermediate' => 'Intermediate', 'advanced' => 'Advanced'];
+        return view('admin.gym-classes.create', compact('trainers', 'levels'));
     }
 
-    // حفظ الفصل الجديد في قاعدة البيانات
+    // Store new class
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'class_name' => 'required|string|max:255',
             'trainer_id' => 'required|exists:trainers,id',
             'category' => 'required|string',
             'bio' => 'nullable|string',
+            'description' => 'nullable|string',
+            'duration' => 'required|string|max:50',
+            'schedule' => 'required|string',
+            'level' => 'required|in:beginner,intermediate,advanced',
+            'price' => 'required|numeric|min:0',
+            'max_capacity' => 'required|integer|min:1',
+            'is_active' => 'sometimes|boolean',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        $data = $request->except('image');
-
+        // Handle image upload
         if ($request->hasFile('image')) {
-            $imagePath = $request->file('image')->store('gym-classes', 'public');
-            $data['image'] = $imagePath;
+            $validated['image'] = $request->file('image')->store('gym-classes', 'public');
         }
 
-        GymClass::create($data);
+        GymClass::create($validated);
 
         return redirect()->route('admin.gym-classes.index')
             ->with('success', 'Class created successfully.');
     }
 
-    // عرض تفاصيل فصل معين
+    // Show class details (admin view)
     public function show(GymClass $gymClass)
     {
+        $gymClass->load('trainer');
         return view('admin.gym-classes.show', compact('gymClass'));
     }
 
-    // عرض نموذج تعديل الفصل
+    // Show edit class form
     public function edit(GymClass $gymClass)
     {
         $trainers = Trainer::all();
-        return view('admin.gym-classes.edit', compact('gymClass', 'trainers'));
+        $levels = ['beginner' => 'Beginner', 'intermediate' => 'Intermediate', 'advanced' => 'Advanced'];
+        return view('admin.gym-classes.edit', compact('gymClass', 'trainers', 'levels'));
     }
 
-    // تحديث بيانات الفصل في قاعدة البيانات
+    // Update class
     public function update(Request $request, GymClass $gymClass)
     {
-        $request->validate([
+        $validated = $request->validate([
             'class_name' => 'required|string|max:255',
             'trainer_id' => 'required|exists:trainers,id',
             'category' => 'required|string',
             'bio' => 'nullable|string',
+            'description' => 'nullable|string',
+            'duration' => 'required|string|max:50',
+            'schedule' => 'required|string',
+            'level' => 'required|in:beginner,intermediate,advanced',
+            'price' => 'required|numeric|min:0',
+            'max_capacity' => 'required|integer|min:1',
+            'is_active' => 'sometimes|boolean',
             'image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'remove_image' => 'sometimes|boolean',
         ]);
 
-        $data = $request->except('image');
+        // Handle image removal
+        if ($request->has('remove_image') && $request->remove_image) {
+            if ($gymClass->image) {
+                Storage::disk('public')->delete($gymClass->image);
+                $validated['image'] = null;
+            }
+        }
 
+        // Handle new image upload
         if ($request->hasFile('image')) {
-            // حذف الصورة القديمة إذا وجدت
+            // Delete old image if exists
             if ($gymClass->image) {
                 Storage::disk('public')->delete($gymClass->image);
             }
-
-            $imagePath = $request->file('image')->store('gym-classes', 'public');
-            $data['image'] = $imagePath;
+            $validated['image'] = $request->file('image')->store('gym-classes', 'public');
         }
 
-        $gymClass->update($data);
+        $gymClass->update($validated);
 
         return redirect()->route('admin.gym-classes.index')
             ->with('success', 'Class updated successfully.');
     }
 
-    // حذف فصل من قاعدة البيانات
+    // Delete class
     public function destroy(GymClass $gymClass)
     {
-        // حذف الصورة المرتبطة إذا وجدت
+        // Delete associated image if exists
         if ($gymClass->image) {
             Storage::disk('public')->delete($gymClass->image);
         }
@@ -102,5 +125,12 @@ class GymClassController extends Controller
 
         return redirect()->route('admin.gym-classes.index')
             ->with('success', 'Class deleted successfully.');
+    }
+
+    // Frontend class details view
+    public function showPublic(GymClass $class)
+    {
+        $class->load('trainer');
+        return view('classes.showtwo', compact('class'));
     }
 }

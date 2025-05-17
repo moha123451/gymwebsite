@@ -41,6 +41,6 @@ class RegisterController extends Controller
         ]);
 
         Auth::login($member);
-        return redirect()->route('index');
+        return redirect()->route('/');
     }
 }

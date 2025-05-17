@@ -13,14 +13,19 @@ use App\Http\Controllers\Admin\SubscriptionController;
 use App\Http\Controllers\Admin\TrainerController;
 use App\Http\Controllers\Admin\MemberController;
 use App\Http\Controllers\Admin\DashboardController;
-
-
-
 use App\Http\Controllers\Admin\GymClassController;
+use App\Http\Controllers\TrainersController;
+
+
+
+
 
 // باقي الكنترولرات كما هي...
 
 // الصفحة الرئيسية
+Route::get('/index', function () {
+    return view('index');
+})->name('index');
 
 
 // صفحات ثابتة
@@ -164,3 +169,30 @@ Route::prefix('admin')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
     // ... بقية الروابط الأخرى
 });
+
+
+
+Route::get('trainers/dashboard', [TrainersController::class, 'dashboard'])->name('trainer.dashboard');
+
+Route::get('trainers', [TrainersController::class, 'index'])->name('trainer.index');
+Route::get('trainers/create', [TrainersController::class, 'create'])->name('trainer.create');
+Route::post('trainers', [TrainersController::class, 'store'])->name('trainer.store');
+Route::get('trainers/{trainer}', [TrainersController::class, 'show'])->name('trainer.show');
+Route::get('trainers/{trainer}/edit', [TrainersController::class, 'edit'])->name('trainer.edit');
+Route::put('trainers/{trainer}', [TrainersController::class, 'update'])->name('trainer.update');
+Route::delete('trainers/{trainer}', [TrainersController::class, 'destroy'])->name('trainer.destroy');
+//=====================================================================================================//
+
+Route::get('/trainers', [TrainerController::class, 'index'])->name('trainer.index');
+Route::get('/trainers/{id}', [TrainerController::class, 'showtreanier'])->name('trainer.show');
+Route::get('/', [MainController::class, 'index']);
+// روابط المدربين (صلاحيات كاملة)
+Route::prefix('trainer')->name('trainer.')->middleware(['auth', 'trainer'])->group(function () {
+    Route::resource('trainers', \App\Http\Controllers\Trainer\TrainerController::class);
+});
+
+// روابط الأدمن (إذا كنت تحتاج فصلها)
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(function () {
+    Route::resource('trainers', \App\Http\Controllers\Admin\TrainerController::class);
+});
+

@@ -5,7 +5,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Trainer extends Model
 {
-    protected $fillable = ['name', 'email', 'bio', 'role'];
+    protected $fillable = ['name', 'email', 'bio','Phone','specialization','image' ];
 
     // علاقة مع الدورات التدريبية
     public function gymClasses()

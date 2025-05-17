@@ -32,7 +32,7 @@ class LoginController extends Controller
             } elseif ($member->role === 'trainer') {
                 return redirect()->route('trainer.dashboard');
             }
-            return redirect()->route('index');
+            return redirect()->intended('index');
         }
 
         return back()->withErrors([
